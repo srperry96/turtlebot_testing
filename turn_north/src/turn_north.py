@@ -16,5 +16,4 @@ if __name__ == "__main__":
 	while not rp.is_shutdown():
 		vel_ctrl.set_current_yaw(sensors.yaw)
 		vel_ctrl.publish_velocity()
-
 		rate.sleep()

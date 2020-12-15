@@ -48,9 +48,3 @@ class VelocityController:
         self.current_yaw = yaw
 
         # rp.loginfo('Set current yaw to {} ({} degrees)'.format(yaw, math.degrees(yaw)))
-
-    def run(self):
-        rate = rp.Rate(10)
-        while not rp.is_shutdown():
-            self.publish_velocity()
-            rate.sleep()
