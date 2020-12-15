@@ -15,6 +15,10 @@ class SensorInput:
 
 
 	def odometry_callback(self, data):
+		"""
+			Callback function for odometry data. Quaternion pose is converted
+			to Euler angles for use in the controller.
+		"""
 		orientation_quat = data.pose.pose.orientation
 		self.roll, self.pitch, self.yaw = euler_from_quaternion([orientation_quat.x, orientation_quat.y, orientation_quat.z, orientation_quat.w])
 

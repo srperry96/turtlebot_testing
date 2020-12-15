@@ -7,14 +7,21 @@ from geometry_msgs.msg import Twist
 
 class VelocityController:
     def __init__(self):
-        self.ang_vel = 0.0
-        self.lin_vel = 0.0
+        #controller gain
         self.kp = 1.2
+
         self.goal_angle = 0.0
         self.current_yaw = 0.0
+        
         self.vel_pub = rp.Publisher('/cmd_vel', Twist, queue_size=10)
 
     def publish_velocity(self):
+        """
+            Calculate a velocity using a simple proportional gain controller, with
+            an error value based on the current yaw and a goal angle.
+            Publish as a Twist message.
+
+        """
         command = Twist()
         
         #calculate error value - if statement accounts for wraparound of angle value
@@ -34,6 +41,11 @@ class VelocityController:
         # rp.loginfo('Published angular velocity: {}'.format(command.angular.z))
 
     def set_goal_angle(self, angle):
+        """
+            Update the goal angle value. Before updating, the angle is limited to
+            the range +-pi
+
+        """
 
         #limit angle to range -pi to +pi
         angle = np.clip(angle, a_min=-math.pi, a_max=math.pi)
@@ -45,6 +57,9 @@ class VelocityController:
         # rp.loginfo('Set goal angle to {} ({} degrees)'.format(angle, math.degrees(angle)))
 
     def set_current_yaw(self, yaw):
+        """
+            Update the current yaw value of the robot.
+        """
         self.current_yaw = yaw
 
         # rp.loginfo('Set current yaw to {} ({} degrees)'.format(yaw, math.degrees(yaw)))
